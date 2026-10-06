@@ -1,6 +1,15 @@
+/* =========================================
+   1. DATABASE CREATION & SELECTION
+   ========================================= */
 CREATE DATABASE IF NOT EXISTS mentaiYa;
 USE mentaiYa;
 
+
+/* =========================================
+   2. TABLE STRUCTURES
+   ========================================= */
+
+-- Users Table: Stores admin, staff, and customer account credentials
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -10,13 +19,16 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Constraint: Restrict roles to predefined user types
 ALTER TABLE users ADD CONSTRAINT chk_role CHECK (role IN ('Customer', 'Staff', 'Admin'));
 
+-- Categories Table: Menu categories (e.g., Ramen, Beverages)
 CREATE TABLE IF NOT EXISTS categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(50) NOT NULL
 );
 
+-- Menu Items Table: Dish details and foreign key link to category
 CREATE TABLE IF NOT EXISTS menu_items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT NOT NULL,
@@ -25,6 +37,7 @@ CREATE TABLE IF NOT EXISTS menu_items (
     FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
+-- Orders Table: Customer order requests linked to users and menu items
 CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -37,16 +50,23 @@ CREATE TABLE IF NOT EXISTS orders (
     CONSTRAINT chk_status CHECK (status IN ('Pending', 'Completed'))
 );
 
+/* =========================================
+   3. SEED DATA / INITIAL RECORDS
+   ========================================= */
+
+-- Insert Default Admin and Staff Accounts
 INSERT INTO users (username, email, password, role) VALUES 
 ('Admin', 'admin@mentaiya.com', '$2y$12$xcbZ1QqEBRI2WgswqUPCfuczXzlotHwa662cwxgKmVP3n5OyiFg6W', 'Admin'),
 ('Staff', 'staff@mentaiya.com', '$2y$12$xcbZ1QqEBRI2WgswqUPCfuczXzlotHwa662cwxgKmVP3n5OyiFg6W', 'Staff');
 
+-- Insert Initial Food & Beverage Categories
 INSERT INTO categories (category_id, category_name) VALUES 
 (1, '拉面 · Ramen'),
 (2, '寿司 · Sushi & Sashimi'),
 (3, '小吃 · Appetizers'),
 (4, '饮品 · Beverages');
 
+-- Insert Initial Menu Items
 INSERT INTO menu_items (item_name, price, category_id, image_url) VALUES
 ('Tonkotsu Ramen (豚骨拉面)', 14.50, 1, 'https://tse3.mm.bing.net/th/id/OIP.GNrqKrP2gKMOICvbkXl81gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
 ('Spicy Miso Ramen (辣味味噌拉面)', 15.00, 1, 'https://www.halfbakedharvest.com/wp-content/uploads/2021/01/30-Minute-Spicy-Miso-Chicken-Katsu-Ramen-1.jpg'),
