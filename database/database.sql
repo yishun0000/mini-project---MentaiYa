@@ -47,12 +47,12 @@ INSERT INTO categories (category_id, category_name) VALUES
 (3, '小吃 · Appetizers'),
 (4, '饮品 · Beverages');
 
-INSERT INTO menu_items (item_name, price, category_id) VALUES 
-('Tonkotsu Ramen (豚骨拉面)', 14.50, 1),
-('Spicy Miso Ramen (辣味味噌拉面)', 15.00, 1),
-('Salmon Sashimi 5pcs (三文鱼刺身)', 12.80, 2),
-('Dragon Roll (火龙卷寿司)', 16.00, 2),
-('Chicken Karaage (日式炸鸡)', 8.50, 3),
-('Takoyaki 6pcs (章鱼小丸子)', 7.00, 3),
-('Matcha Green Tea (宇治抹茶)', 4.50, 4),
-('Asahi Super Dry Beer (朝日啤酒)', 6.50, 4);
+INSERT INTO menu_items (item_name, price, category_id, image_url) VALUES
+('Tonkotsu Ramen (豚骨拉面)', 14.50, 1, 'https://tse3.mm.bing.net/th/id/OIP.GNrqKrP2gKMOICvbkXl81gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
+('Spicy Miso Ramen (辣味味噌拉面)', 15.00, 1, 'https://www.halfbakedharvest.com/wp-content/uploads/2021/01/30-Minute-Spicy-Miso-Chicken-Katsu-Ramen-1.jpg'),
+('Salmon Sashimi 5pcs (三文鱼刺身)', 12.80, 2, 'https://tse4.mm.bing.net/th/id/OIP.w0nZeqMqKYsWS0SM7rva2AHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
+('Dragon Roll (火龙卷寿司)', 16.00, 2, 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80'),
+('Chicken Karaage (日式炸鸡)', 8.50, 3, 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=400&q=80'),
+('Takoyaki 6pcs (章鱼小丸子)', 7.00, 3, 'https://tse4.mm.bing.net/th/id/OIP.obGlqDFmCHfUNTSKPkovPQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
+('Matcha Green Tea (宇治抹茶)', 4.50, 4, 'https://www.natalieshealth.com/wp-content/uploads/2021/02/Matcha-Grean-Tea-Latte-6.jpg'),
+('Asahi Super Dry Beer (朝日啤酒)', 6.50, 4, 'https://tse3.mm.bing.net/th/id/OIP.vcm3-WhcRnsqC5PSy3H6qAHaDj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3');

@@ -35,32 +35,6 @@ if ($selectedCategory) {
 $userOrders = $pdo->prepare("SELECT orders.*, menu_items.item_name, menu_items.price FROM orders JOIN menu_items ON orders.item_id = menu_items.item_id WHERE orders.user_id = ? ORDER BY orders.created_at DESC");
 $userOrders->execute([$_SESSION['user']['id']]);
 $myOrders = $userOrders->fetchAll();
-
-function getFoodImage($itemName) {
-    $name = strtolower($itemName);
-
-    if (strpos($name, 'tonkotsu') !== false) {
-        return 'https://tse3.mm.bing.net/th/id/OIP.GNrqKrP2gKMOICvbkXl81gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3';
-    } elseif (strpos($name, 'spicy') !== false) {
-        return 'https://www.halfbakedharvest.com/wp-content/uploads/2021/01/30-Minute-Spicy-Miso-Chicken-Katsu-Ramen-1.jpg';
-    } elseif (strpos($name, 'sashimi') !== false) {
-        return 'https://tse4.mm.bing.net/th/id/OIP.w0nZeqMqKYsWS0SM7rva2AHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3';
-    } elseif (strpos($name, 'dragon') !== false) {
-        return 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80';
-    } elseif (strpos($name, 'karaage') !== false) {
-        return 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=400&q=80';
-    } elseif (strpos($name, 'takoyaki') !== false){
-        return 'https://tse4.mm.bing.net/th/id/OIP.obGlqDFmCHfUNTSKPkovPQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3';
-    } elseif (strpos($name, 'matcha') !== false) {
-        return 'https://www.natalieshealth.com/wp-content/uploads/2021/02/Matcha-Grean-Tea-Latte-6.jpg';
-    } elseif (strpos($name, 'beer') !== false) {
-        return 'https://tse3.mm.bing.net/th/id/OIP.vcm3-WhcRnsqC5PSy3H6qAHaDj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3';
-    } elseif (strpos($name, 'ramen') !== false) {
-        return 'https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=400&q=80';
-    }
-
-    return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80';
-}
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +86,7 @@ function getFoodImage($itemName) {
                     <?php foreach ($menuItems as $item) { ?>
                     <div class="food-card">
                         <div class="food-img-wrapper">
-                            <img src="<?php echo getFoodImage($item['item_name']); ?>" alt="Japanese Food">
+                            <img src="<?php echo htmlspecialchars($item['image_url'] ?? ''); ?>" alt="">
                         </div>
                         <div class="food-title"><?php echo htmlspecialchars($item['item_name']); ?></div>
                         <div class="food-category"><?php echo htmlspecialchars($item['category_name']); ?></div>

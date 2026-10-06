@@ -29,7 +29,7 @@
 
 > What problem does your application solve? Who is it for? Why is it useful?
 
-[ Manual paper ordering in small restaurants causes miscommunication between servers and the kitchen. Simple Food provides a digitized ordering platform to simplify menu browsing, food ordering, and kitchen status tracking. ]
+[ Manual paper ordering in small restaurants causes miscommunication between servers and the kitchen. MentaiYa provides a digitized ordering platform to simplify menu browsing, food ordering, and kitchen status tracking. ]
 
 ---
 
@@ -127,10 +127,12 @@ erDiagram
     menu_items ||--o{ orders : "ordered"
 
     users {
-        int user_id PK
+        int id PK
         string username
+        string email
         string password
         enum role "Admin, Staff, Customer"
+        timestamp created_at
     }
 
     categories {
@@ -143,14 +145,16 @@ erDiagram
         int category_id FK
         string item_name
         decimal price
+        string image_url
     }
 
     orders {
-        int order_id PK
+        int id PK
         int user_id FK
         int item_id FK
-        string table_number
+        int table_number
         enum status "Pending, Completed"
+        timestamp created_at
     }]
 
 ---
