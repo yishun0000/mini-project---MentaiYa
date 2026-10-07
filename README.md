@@ -1,7 +1,7 @@
 # Mini Project Journal
 
 - **Student Name: Nigel Ng Yi Shun**
-- **Project Title: MentaiYa - Online Ordering & POS System**
+- **Project Title: MentaiYa - Restaurant Ordering & Kitchen Management System**
 - **Start Date: 2026-09-28**
 - **End Date: 2026-10-11**
 

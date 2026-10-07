@@ -18,7 +18,7 @@
 
 ## 2. Project Title
 
-**[ MentaiYa - Smart Restaurant Ordering & Kitchen Management System ]**
+**[ MentaiYa - Restaurant Ordering & Kitchen Management System ]**
 
 ### One-line summary
 [ A web application for customers to browse menu and order food, kitchen staff to view orders, and admin to manage the menu. ]
