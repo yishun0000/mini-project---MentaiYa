@@ -1,9 +1,9 @@
 # Mini Project Journal
 
-**Student Name: Nigel Ng Yi Shun**
-**Project Title: MentaiYa - Online Ordering & POS System**
-**Start Date: 2026-09-28**
-**End Date: 2026-10-11**
+- **Student Name: Nigel Ng Yi Shun**
+- **Project Title: MentaiYa - Online Ordering & POS System**
+- **Start Date: 2026-09-28**
+- **End Date: 2026-10-11**
 
 ---
 
