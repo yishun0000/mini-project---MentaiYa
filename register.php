@@ -1,16 +1,23 @@
 <?php
+/* =========================================
+   1. SESSION & DB SETUP
+   ========================================= */
 session_start();
 
 require_once __DIR__ . '/config/database.php';
 
 $error = '';
 
+/* =========================================
+   2. ACCOUNT CREATION PROCESS
+   ========================================= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $username = $_POST['username'];
     $email    = $_POST['email'];
     $password = $_POST['password'];
 
+    // Check if username already exists in database
     $stmt = $pdo->prepare('SELECT id FROM users WHERE username = ?');
     $stmt->execute([$username]);
     $existingUser = $stmt->fetch();
@@ -18,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($existingUser) {
         $error = 'Username is already taken.';
     } else {
+        // Securely hash password and insert new customer record
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $pdo->prepare('INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)');

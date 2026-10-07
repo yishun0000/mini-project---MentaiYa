@@ -1,17 +1,25 @@
 <?php
+/* =========================================
+   1. SESSION & DB SETUP
+   ========================================= */
 session_start();
 require_once __DIR__ . '/config/database.php';
 
 $error = '';
 
+/* =========================================
+   2. AUTHENTICATION LOGIC
+   ========================================= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Retrieve user details by username
     $stmt = $pdo->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
+    // Verify hashed password and assign session state
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = [
             'id'       => $user['id'],
@@ -19,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'role'     => $user['role'],
         ];
 
+        // Redirect based on user role
         if ($user['role'] === 'Admin') {
             header("Location: admin.php");
             exit;

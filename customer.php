@@ -1,7 +1,11 @@
 <?php
+/* =========================================
+   1. AUTHENTICATION & SETUP
+   ========================================= */
 require_once __DIR__ . '/auth/roles.php';
 require_once __DIR__ . '/config/database.php';
 
+// Validate customer authorization
 if (!isCustomer()) {
     header('Location: /login.php');
     exit;
@@ -9,6 +13,9 @@ if (!isCustomer()) {
 
 $msg = '';
 
+/* =========================================
+   2. ORDER SUBMISSION HANDLER
+   ========================================= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     $itemId      = $_POST['item_id'];
     $tableNumber = $_POST['table_number'];
@@ -21,9 +28,13 @@ if ($itemId && $tableNumber) {
     }
 }
 
+/* =========================================
+   3. DATA QUERYING & CATEGORY FILTERING
+   ========================================= */
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
 $selectedCategory = $_GET['category_id'] ?? null;
 
+// Filter dish selection by active category parameter
 if ($selectedCategory) {
     $stmt = $pdo->prepare("SELECT menu_items.*, categories.category_name FROM menu_items JOIN categories ON menu_items.category_id = categories.category_id WHERE menu_items.category_id = ?");
     $stmt->execute([$selectedCategory]);
@@ -32,6 +43,7 @@ if ($selectedCategory) {
     $menuItems = $pdo->query("SELECT menu_items.*, categories.category_name FROM menu_items JOIN categories ON menu_items.category_id = categories.category_id")->fetchAll();
 }
 
+// Fetch order history for current logged-in customer
 $userOrders = $pdo->prepare("SELECT orders.*, menu_items.item_name, menu_items.price FROM orders JOIN menu_items ON orders.item_id = menu_items.item_id WHERE orders.user_id = ? ORDER BY orders.created_at DESC");
 $userOrders->execute([$_SESSION['user']['id']]);
 $myOrders = $userOrders->fetchAll();

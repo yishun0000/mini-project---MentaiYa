@@ -1,12 +1,21 @@
 <?php
+/* =========================================
+   1. AUTHENTICATION & SETUP
+   ========================================= */
 require_once __DIR__ . '/auth/roles.php';
 require_once __DIR__ . '/config/database.php';
 
+// Enforce admin access control
 if (!isAdmin()) {
     header('Location: login.php');
     exit;
 }
 
+/* =========================================
+   2. POST REQUEST HANDLERS (CRUD)
+   ========================================= */
+
+// Action: Add new menu category
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_category'])) {
     $categoryName = $_POST['category_name'];
     if ($categoryName !== '') {
@@ -15,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_category'])) {
     }
 }
 
+// Action: Add new menu dish item
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_item'])) {
     $itemName   = $_POST['item_name'];
     $price      = $_POST['price'];
@@ -26,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_item'])) {
     }
 }
 
+// Action: Update existing dish details (Name, Price)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_item'])) {
     $itemId   = $_POST['item_id'];
     $itemName = $_POST['item_name'];
@@ -37,20 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_item'])) {
     exit;
 }
 
-if (isset($_GET['delete_item'])) {
-    $stmt = $pdo->prepare("DELETE FROM menu_items WHERE item_id = ?");
-    $stmt->execute([$_GET['delete_item']]);
-    header("Location: admin.php");
-    exit;
-}
-
-if (isset($_GET['delete_category'])) {
-    $stmt = $pdo->prepare("DELETE FROM categories WHERE category_id = ?");
-    $stmt->execute([$_GET['delete_category']]);
-    header("Location: admin.php");
-    exit;
-}
-
+// Action: Mark order status as 'Completed'
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
     $orderId = $_POST['order_id'];
     $stmt = $pdo->prepare("UPDATE orders SET status = 'Completed' WHERE id = ?");
@@ -59,6 +57,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
     exit;
 }
 
+/* =========================================
+   3. GET REQUEST HANDLERS (DELETIONS)
+   ========================================= */
+
+// Delete single dish item
+if (isset($_GET['delete_item'])) {
+    $stmt = $pdo->prepare("DELETE FROM menu_items WHERE item_id = ?");
+    $stmt->execute([$_GET['delete_item']]);
+    header("Location: admin.php");
+    exit;
+}
+
+// Delete menu category
+if (isset($_GET['delete_category'])) {
+    $stmt = $pdo->prepare("DELETE FROM categories WHERE category_id = ?");
+    $stmt->execute([$_GET['delete_category']]);
+    header("Location: admin.php");
+    exit;
+}
+
+// Delete customer order record
 if (isset($_GET['delete_order'])) {
     $orderId = $_GET['delete_order'];
     $stmt = $pdo->prepare("DELETE FROM orders WHERE id = ?");
@@ -67,6 +86,9 @@ if (isset($_GET['delete_order'])) {
     exit;
 }
 
+/* =========================================
+   4. FETCH DATA FOR VIEW
+   ========================================= */
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
 $menuItems  = $pdo->query("SELECT menu_items.*, categories.category_name FROM menu_items JOIN categories ON menu_items.category_id = categories.category_id")->fetchAll();
 
@@ -131,7 +153,7 @@ $orders = $ordersStmt->fetchAll();
                 </form>
             </div>
 
-            <div class="admin-card">
+        <div class="admin-card">
                 <h2>Current Menu Items (<?php echo count($menuItems); ?>)</h2>
                 <div class="table-wrapper">
                     <table class="admin-table">
@@ -215,6 +237,5 @@ $orders = $ordersStmt->fetchAll();
         </div>
 
     </div>
-
 </body>
 </html>

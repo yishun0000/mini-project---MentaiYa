@@ -1,12 +1,19 @@
 <?php
+/* =========================================
+   1. AUTHENTICATION & SETUP
+   ========================================= */
 require_once __DIR__ . '/auth/roles.php';
 require_once __DIR__ . '/config/database.php';
 
+// Verify kitchen staff or admin privileges
 if (!isStaff()) {
     header('Location: login.php');
     exit;
 }
 
+/* =========================================
+   2. ORDER FULFILLMENT HANDLER
+   ========================================= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
     $orderId = $_POST['order_id'];
     $stmt = $pdo->prepare("UPDATE orders SET status = 'Completed' WHERE id = ?");
@@ -15,6 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete_order'])) {
     exit;
 }
 
+/* =========================================
+   3. FETCH ACTIVE ORDERS
+   ========================================= */
 $stmt = $pdo->query("SELECT orders.*, users.username, menu_items.item_name FROM orders JOIN users ON orders.user_id = users.id JOIN menu_items ON orders.item_id = menu_items.item_id ORDER BY orders.created_at ASC");
 $orders = $stmt->fetchAll();
 ?>
