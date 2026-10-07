@@ -4,7 +4,7 @@
 > **Competency Unit:** J620-002-4:2020-C01
 > **Instructions:** Replace every `[ ... ]` and delete the hint lines (starting with `>`) before submitting. Keep this file as `README.md` in the root of your project repository.
 
-> 📖 **Quick Links:** [Click here to view Mini Project Journal (JOURNAL.md)](./JOURNAL.md)
+> 📖 **Quick Links:** [Click here to view Mini Project Journal (JOURNAL.md)](./journal.md)
 
 ---
 
